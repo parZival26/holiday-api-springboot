@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/festivos")
 public class FestivoController {
@@ -16,6 +19,16 @@ public class FestivoController {
     public FestivoController(FestivoService festivoService) {
         this.festivoService = festivoService;
     }
+
+    @GetMapping("/{pais}/{anio}")
+    public ResponseEntity<List<LocalDate>> listaFestivcs(
+            @PathVariable("pais") Long idPais,
+            @PathVariable int anio
+    ) {
+        List<LocalDate> lista = festivoService.listarFestivosPorPaisYAño(anio, idPais);
+        return ResponseEntity.ok(lista);
+    }
+
 
     @GetMapping("/{pais}/{anio}/{mes}/{dia}")
     public ResponseEntity<String> validarFestivo(
