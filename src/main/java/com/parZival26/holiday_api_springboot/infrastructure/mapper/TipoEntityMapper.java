@@ -10,6 +10,4 @@ public interface TipoEntityMapper {
     @Mapping(source = "nombre", target = "tipo")
     Tipo toModel(TipoEntity entity);
 
-    @Mapping(source = "tipo", target = "nombre")
-    TipoEntity toEntity(Tipo model);
 }

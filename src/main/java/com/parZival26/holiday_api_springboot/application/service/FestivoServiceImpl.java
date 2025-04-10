@@ -2,6 +2,7 @@ package com.parZival26.holiday_api_springboot.application.service;
 
 import com.parZival26.holiday_api_springboot.application.mapper.FestivoMapper;
 import com.parZival26.holiday_api_springboot.domain.model.Festivo;
+import com.parZival26.holiday_api_springboot.domain.model.FestivoFecha;
 import com.parZival26.holiday_api_springboot.domain.repository.FestivoRepository;
 import com.parZival26.holiday_api_springboot.domain.repository.TipoRepository;
 import com.parZival26.holiday_api_springboot.domain.service.FestivoService;
@@ -74,31 +75,35 @@ public class FestivoServiceImpl implements FestivoService {
     }
 
     @Override
-    public List<LocalDate> listarFestivosPorPaisYAño(int anio, Long idPais) {
-        List<LocalDate> listaFestivos = new ArrayList<LocalDate>();
+    public List<FestivoFecha> listarFestivosPorPaisYAño(int anio, Long idPais) {
+        List<FestivoFecha> listaFestivos = new ArrayList<FestivoFecha>();
 
         List<Festivo> festivosPais = festivoRepository.findByPais(idPais);
 
         LocalDate domingoPascua = calcularDomingoPascua(anio);
 
         for (Festivo festivo : festivosPais) {
-
+            LocalDate fecha = null;
             if (festivo.getIdTipo() == 1L) {
-                listaFestivos.add(LocalDate.of(anio, festivo.getMes(), festivo.getDia()));
+                fecha = LocalDate.of(anio, festivo.getMes(), festivo.getDia());
+                listaFestivos.add(new FestivoFecha(fecha, festivo.getNombre()));
 
             } else if (festivo.getIdTipo() == 2L) {
                 LocalDate fechaFestivo = LocalDate.of(anio, festivo.getMes(), festivo.getDia());
-                listaFestivos.add(trasladarAlSiguienteLunes(fechaFestivo));
+                fecha = trasladarAlSiguienteLunes(fechaFestivo);
+                listaFestivos.add(new FestivoFecha(fecha, festivo.getNombre()));
 
             } else if (festivo.getIdTipo() == 3L) {
                 if (festivo.getDiasPascua() != null) {
-                    listaFestivos.add(domingoPascua.plusDays(festivo.getDiasPascua()));
+                    fecha = domingoPascua.plusDays(festivo.getDiasPascua());
+                    listaFestivos.add(new FestivoFecha(fecha, festivo.getNombre()));
                 }
 
             } else if (festivo.getIdTipo() == 4L) {
                 if (festivo.getDiasPascua() != null) {
                     LocalDate fechaFestivo = domingoPascua.plusDays(festivo.getDiasPascua());
-                    listaFestivos.add(trasladarAlSiguienteLunes(fechaFestivo));
+                    fecha = trasladarAlSiguienteLunes(fechaFestivo);
+                    listaFestivos.add(new FestivoFecha(fecha, festivo.getNombre()));
                 }
             }
         }

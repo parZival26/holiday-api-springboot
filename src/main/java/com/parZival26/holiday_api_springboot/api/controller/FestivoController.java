@@ -1,5 +1,8 @@
 package com.parZival26.holiday_api_springboot.api.controller;
 
+import com.parZival26.holiday_api_springboot.application.dto.FestivoFechaDTO;
+import com.parZival26.holiday_api_springboot.application.usecase.ListarFestivosUseCase;
+import com.parZival26.holiday_api_springboot.application.usecase.VerificarFestivoUseCase;
 import com.parZival26.holiday_api_springboot.domain.service.FestivoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +17,20 @@ import java.util.List;
 @RequestMapping("/api/festivos")
 public class FestivoController {
 
-    private final FestivoService festivoService;
+    private final VerificarFestivoUseCase verificarFestivoUseCase;
+    private final ListarFestivosUseCase listarFestivosUseCase;
 
-    public FestivoController(FestivoService festivoService) {
-        this.festivoService = festivoService;
+    public FestivoController(VerificarFestivoUseCase verificarFestivoUseCase, ListarFestivosUseCase listarFestivosUseCase) {
+        this.verificarFestivoUseCase = verificarFestivoUseCase;
+        this.listarFestivosUseCase = listarFestivosUseCase;
     }
 
     @GetMapping("/{pais}/{anio}")
-    public ResponseEntity<List<LocalDate>> listaFestivcs(
+    public ResponseEntity<List<FestivoFechaDTO>> listaFestivcs(
             @PathVariable("pais") Long idPais,
             @PathVariable int anio
     ) {
-        List<LocalDate> lista = festivoService.listarFestivosPorPaisYAño(anio, idPais);
+        List<FestivoFechaDTO> lista = listarFestivosUseCase.ejecutar(anio, idPais);
         return ResponseEntity.ok(lista);
     }
 
@@ -42,8 +47,8 @@ public class FestivoController {
             return ResponseEntity.badRequest().body("Fecha No Válida");
         }
 
-        return festivoService.esFestivo(anio, mes, dia, idPais)
-                .map(f -> ResponseEntity.ok("Es Festivo"))
-                .orElse(ResponseEntity.ok("No es Festivo"));
+        return  verificarFestivoUseCase.ejecutar(anio, mes, dia, idPais)
+                ? ResponseEntity.ok("Es festivo")
+                : ResponseEntity.ok("No es festivo");
     }
 }
