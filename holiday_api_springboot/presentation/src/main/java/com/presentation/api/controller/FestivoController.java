@@ -3,14 +3,12 @@ package com.presentation.api.controller;
 import com.application.dto.FestivoFechaDTO;
 import com.application.usecase.ListarFestivosUseCase;
 import com.application.usecase.VerificarFestivoUseCase;
-import com.domain.service.FestivoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
