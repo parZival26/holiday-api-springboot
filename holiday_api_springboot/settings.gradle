@@ -1,0 +1,3 @@
+rootProject.name = 'holiday-api-springboot'
+
+include 'domain' , 'application', 'infrastructure', 'presentation'
