@@ -8,6 +8,7 @@ import com.infrastructure.persistence.jpa.JpaFestivoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class FestivoRepositoryImpl implements FestivoRepository {
@@ -26,5 +27,31 @@ public class FestivoRepositoryImpl implements FestivoRepository {
         return entityList.stream()
                 .map(mapper::toModel)
                 .toList();
+    }
+
+    @Override
+    public Optional<Festivo> findById(Long id) {
+        Optional<FestivoEntity> entityOptional = jpaFestivoRepository.findById(id);
+        return entityOptional.map(mapper::toModel);
+    }
+
+    @Override
+    public List<Festivo> findAll() {
+        List<FestivoEntity> entityList = jpaFestivoRepository.findAll();
+        return entityList.stream()
+                .map(mapper::toModel)
+                .toList();
+    }
+
+    @Override
+    public Festivo save(Festivo festivo) {
+        FestivoEntity entity = mapper.toEntity(festivo);
+        FestivoEntity savedEntity = jpaFestivoRepository.save(entity);
+        return mapper.toModel(savedEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        jpaFestivoRepository.deleteById(id);
     }
 }

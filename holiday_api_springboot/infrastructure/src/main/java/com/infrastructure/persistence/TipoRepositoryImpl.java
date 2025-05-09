@@ -33,4 +33,16 @@ public class TipoRepositoryImpl implements TipoRepository {
                 .map(mapper::toModel)
                 .toList();
     }
+
+    @Override
+    public Tipo save(Tipo tipo) {
+        TipoEntity entity = mapper.toEntity(tipo);
+        TipoEntity savedEntity = jpaTipoRepository.save(entity);
+        return mapper.toModel(savedEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        jpaTipoRepository.deleteById(id);
+    }
 }

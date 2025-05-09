@@ -104,6 +104,26 @@ public class FestivoServiceImpl implements FestivoService {
         return listaFestivos;
     }
 
+    @Override
+    public Optional<Festivo> findById(Long id) {
+        return festivoRepository.findById(id);
+    }
+
+    @Override
+    public List<Festivo> findAll() {
+        return festivoRepository.findAll();
+    }
+
+    @Override
+    public Festivo save(Festivo festivo) {
+        return festivoRepository.save(festivo);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        festivoRepository.deleteById(id);
+    }
+
     private LocalDate trasladarAlSiguienteLunes(LocalDate fecha) {
         if (fecha.getDayOfWeek() == DayOfWeek.MONDAY) {
             return fecha;

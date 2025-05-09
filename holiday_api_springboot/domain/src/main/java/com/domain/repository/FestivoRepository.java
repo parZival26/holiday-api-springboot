@@ -9,4 +9,12 @@ public interface FestivoRepository {
 
 
     List<Festivo> findByPais(Long idPais);
+
+    Optional<Festivo> findById(Long id);
+
+    List<Festivo> findAll();
+
+    Festivo save(Festivo festivo);
+
+    void deleteById(Long id);
 }

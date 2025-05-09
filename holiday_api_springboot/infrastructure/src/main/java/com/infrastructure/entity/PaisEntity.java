@@ -13,6 +13,7 @@ public class PaisEntity {
     @Getter @Setter
     private Long id;
 
+    @Getter @Setter
     private String nombre;
 
 }

@@ -1,6 +1,8 @@
 package com.application.mapper;
 
+import com.application.dto.CreateFestivoDTO;
 import com.application.dto.FestivoFechaDTO;
+import com.domain.model.Festivo;
 import com.domain.model.FestivoFecha;
 import org.mapstruct.Mapper;
 

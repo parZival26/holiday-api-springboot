@@ -10,7 +10,7 @@ dependencyManagement {
     }
 }
 springBoot {
-	mainClass = 'com.presentation.api.controller.HolidayApiSpringbootApplication'
+	mainClass = 'com.presentation.HolidayApiSpringbootApplication'
 }
 
 dependencies {
@@ -19,6 +19,7 @@ dependencies {
     implementation project(':infrastructure')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
